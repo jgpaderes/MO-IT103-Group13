@@ -9,13 +9,15 @@ import java.util.List;
 public class SystemMotorPhGUI{
     
     // SHARED FILE PATHS
-    static final String ATTENDANCE_FILE = "resources/MotorPH_Attendance Record.csv";
-    static final String EMPLOYEE_FILE   = "resources/MotorPH_Employee Details.csv";
+    static final String ATTENDANCE_FILE = "CP2MotorPhPayroll/resources/MotorPH_Attendance Record.csv";
+    static final String EMPLOYEE_FILE   = "CP2MotorPhPayroll/resources/MotorPH_Employee Details.csv";
    
     // SHARED IN-MEMORY DATA MAPS  
     static HashMap<String, String[]>       employeeMap   = new HashMap<>();
     static HashMap<String, List<String[]>> attendanceMap = new HashMap<>();
 
+    //TODO: REVERT startingPanel to old one
+    static Dimension startingPanel = new Dimension(1107, 640);
     // COLOR PALETTE
     static final Color COLOR_BG        = new Color(245, 245, 245);
     static final Color COLOR_PRIMARY   = new Color(0, 9, 140);
@@ -44,7 +46,8 @@ public class SystemMotorPhGUI{
 
             DataLoading.loadEmployees(EMPLOYEE_FILE, employeeMap);
             DataLoading.loadAttendance(ATTENDANCE_FILE, attendanceMap);
-            SystemLogInPanel.showLogin();
+            //SystemLogInPanel.showLogin(); Comment as it's a hastle when debugging, we're going straight to the panel.
+            SystemEmployeePanel.show();
         });
     }
 
@@ -111,6 +114,7 @@ public class SystemMotorPhGUI{
         logoutBtn.setFocusPainted(false);
         logoutBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         logoutBtn.addActionListener(e -> {
+            //TODO: ADD A CHECK IF YOU MADE OR EDITED NEW RECORDS TO SAVE BEFORE YOU LOGOUT
             int confirm = JOptionPane.showConfirmDialog(frame,
                 "Are you sure you want to logout?",
                 "Logout", JOptionPane.YES_NO_OPTION);
@@ -123,5 +127,33 @@ public class SystemMotorPhGUI{
         header.add(titleLbl,  BorderLayout.WEST);
         header.add(logoutBtn, BorderLayout.EAST);
         return header;
+    }
+
+    /*Builds a reusable popup*/
+    //Parameter's prob (frame, panel, Dimensions)
+    //Then hopefully people can add things ONTO the popup?
+    static Popup makePopup(JFrame frame, Dimension dimension, int widthOffset, int heightOffset){
+        //TODO: Convert the frame's relative coordinates (top left 0,0) to absolute coordinates our popup can work with.
+        //TODO: Ensure makePopup can have a offset start and end point, and the chosen dimensions for the popup.
+        //TODO: maybe... ensure it's centred without having to fuss about with manual layouts
+        //Method for getting the offset
+        PopupFactory popupFactory = new PopupFactory();
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.red);
+        panel.setPreferredSize(setupPadding(dimension, widthOffset, heightOffset));
+
+        Popup popup = popupFactory.getPopup(frame, panel, 807, 807);
+        return popup;
+    }
+
+    static Dimension setupPadding(Dimension dimension, int widthOffset, int heightOffset){
+        int width = dimension.width;
+        int height = dimension.height;
+
+        width = width - widthOffset;
+        height = height - heightOffset;
+
+        Dimension finalDimension = new Dimension(width, height);
+        return finalDimension;
     }
 }
