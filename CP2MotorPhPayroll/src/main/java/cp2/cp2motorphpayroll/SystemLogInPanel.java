@@ -33,7 +33,7 @@ public class SystemLogInPanel{
 
         JLabel sub = new JLabel("Automatic Payroll System");
         sub.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        sub.setForeground(new Color(255, 200, 200));
+        sub.setForeground(new Color(84, 149, 233));
 
         JPanel logoStack = new JPanel();
         logoStack.setOpaque(false);

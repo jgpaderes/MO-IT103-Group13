@@ -16,6 +16,8 @@ public class SystemMotorPhGUI{
     static HashMap<String, String[]>       employeeMap   = new HashMap<>();
     static HashMap<String, List<String[]>> attendanceMap = new HashMap<>();
 
+    //TODO: REVERT startingPanel to old one
+    static Dimension startingPanel = new Dimension(1107, 640);
     // COLOR PALETTE
     static final Color COLOR_BG        = new Color(245, 245, 245);
     static final Color COLOR_PRIMARY   = new Color(0, 9, 140);
@@ -44,7 +46,8 @@ public class SystemMotorPhGUI{
 
             DataLoading.loadEmployees(EMPLOYEE_FILE, employeeMap);
             DataLoading.loadAttendance(ATTENDANCE_FILE, attendanceMap);
-            SystemLogInPanel.showLogin();
+            //SystemLogInPanel.showLogin(); Comment as it's a hastle when debugging, we're going straight to the panel.
+            SystemEmployeePanel.show();
         });
     }
 
@@ -111,6 +114,7 @@ public class SystemMotorPhGUI{
         logoutBtn.setFocusPainted(false);
         logoutBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         logoutBtn.addActionListener(e -> {
+            //TODO: ADD A CHECK IF YOU MADE OR EDITED NEW RECORDS TO SAVE BEFORE YOU LOGOUT
             int confirm = JOptionPane.showConfirmDialog(frame,
                 "Are you sure you want to logout?",
                 "Logout", JOptionPane.YES_NO_OPTION);
@@ -123,5 +127,25 @@ public class SystemMotorPhGUI{
         header.add(titleLbl,  BorderLayout.WEST);
         header.add(logoutBtn, BorderLayout.EAST);
         return header;
+    }
+
+    /*Builds a reusable popup, pass Component in through contents, ideally through a Jpanel
+    * Coordinates are relative to the parent where 0,0 is the top left corner of the frame
+    * Offsets define the start of the popup
+    */
+    static void makePopup(Component parent, Component contents, int widthOffset, int heightOffset){
+        //TODO: maybe... ensure it's centred without having to fuss about with manual layouts
+        //TODO: Add check for if popup exists, if true destroy all popups
+        //TODO: Implement a way to CLOSE popups
+        //Get starting point of parent in absolute coordinates.
+        Point frameLocation = parent.getLocationOnScreen();
+
+        PopupFactory popupFactory = new PopupFactory();
+        Popup popup = popupFactory.getPopup(parent,
+                contents,
+                (int)frameLocation.getX()+widthOffset,
+                (int)frameLocation.getY()+heightOffset);
+
+        popup.show();
     }
 }

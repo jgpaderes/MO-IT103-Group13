@@ -29,11 +29,11 @@ public class SystemEmployeePanel {
     static void show() {
         frame = new JFrame("MotorPh — Employee Portal");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1107, 640);
+        frame.setSize(SystemMotorPhGUI.startingPanel);
         frame.setLocationRelativeTo(null);
 
         JPanel header = SystemMotorPhGUI.buildHeader(
-            "Employee Portal", frame, 1107,
+            "Employee Portal", frame, 1207,
             () -> SystemLogInPanel.showLogin());
 
         JPanel searchBar = buildSearchBar();
@@ -73,7 +73,7 @@ public class SystemEmployeePanel {
         table.setFont(SystemMotorPhGUI.FONT_TABLE);
         table.setRowHeight(24);
         table.setGridColor(SystemMotorPhGUI.COLOR_BORDER);
-        table.setSelectionBackground(new Color(255, 220, 220));
+        table.setSelectionBackground(new Color(84, 149, 233));
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.getTableHeader().setFont(SystemMotorPhGUI.FONT_BOLD);
         table.getTableHeader().setBackground(new Color(240, 240, 240));
@@ -156,6 +156,10 @@ public class SystemEmployeePanel {
         JButton showAllBtn = SystemMotorPhGUI.makeButton("Show All Records",
             SystemMotorPhGUI.COLOR_PRIMARY);
         showAllBtn.setPreferredSize(new Dimension(150, 28));
+// Disabled for PR. Part of MS2.
+//        JButton addRcrd = SystemMotorPhGUI.makeButton("Add Employee",
+//                SystemMotorPhGUI.COLOR_PRIMARY);
+//        addRcrd.setPreferredSize(new Dimension(145, 28));
 
              // Search button - uses refreshTableFiltered()
             searchBtn.addActionListener(e -> {
@@ -221,6 +225,17 @@ public class SystemEmployeePanel {
                 "Table Cleared");
         });
 
+//         Add empployee button
+//        addRcrd.addActionListener(e -> {
+//            SystemMotorPhGUI.showError(frame,
+//                    "TODO IMPLEMENT THE ADD EMPLOYEE RECORDS MENU.");
+//            JPanel panel = new JPanel();
+//            panel.setBackground(Color.red);
+//            Dimension dimension = new Dimension(907, 500);
+//            panel.setPreferredSize(dimension);
+//            SystemMotorPhGUI.makePopup(frame, panel, 100, 100);
+//        });
+
         // Enter key on either field triggers search
         KeyAdapter enterKey = new KeyAdapter() {
             @Override
@@ -237,6 +252,8 @@ public class SystemEmployeePanel {
         bar.add(nameLbl);   bar.add(nameField);
         bar.add(searchBtn); bar.add(clearBtn);
         bar.add(showAllBtn); bar.add(showAllBtn);
+//        bar.add(addRcrd); bar.add(addRcrd);
+
         return bar;
     }
 }
