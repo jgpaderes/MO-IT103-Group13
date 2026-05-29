@@ -129,20 +129,22 @@ public class SystemMotorPhGUI{
         return header;
     }
 
-    /*Builds a reusable popup*/
-    //Parameter's prob (frame, panel, Dimensions)
-    //Then hopefully people can add things ONTO the popup?
-    static Popup makePopup(JFrame frame, Dimension dimension, int widthOffset, int heightOffset){
-        //TODO: Convert the frame's relative coordinates (top left 0,0) to absolute coordinates our popup can work with.
-        //TODO: Ensure makePopup can have a offset start and end point, and the chosen dimensions for the popup.
+    /*Builds a reusable popup, pass Component in through contents, ideally through a Jpanel
+    * Coordinates are relative to the parent where 0,0 is the top left corner of the frame
+    * Offsets define the start of the popup
+    */
+    static Popup makePopup(Component parent, Component contents, Dimension dimension, int widthOffset, int heightOffset){
         //TODO: maybe... ensure it's centred without having to fuss about with manual layouts
-        //Method for getting the offset
-        PopupFactory popupFactory = new PopupFactory();
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.red);
-        panel.setPreferredSize(setupPadding(dimension, widthOffset, heightOffset));
+        //TODO: Add check for if popup exists, if true destroy all popups
+        //Get starting point of parent in absolute coordinates.
+        Point frameLocation = parent.getLocationOnScreen();
 
-        Popup popup = popupFactory.getPopup(frame, panel, 807, 807);
+        PopupFactory popupFactory = new PopupFactory();
+        Popup popup = popupFactory.getPopup(parent,
+                contents,
+                (int)frameLocation.getX()+widthOffset,
+                (int)frameLocation.getY()+heightOffset);
+
         return popup;
     }
 

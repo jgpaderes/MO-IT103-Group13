@@ -156,10 +156,10 @@ public class SystemEmployeePanel {
         JButton showAllBtn = SystemMotorPhGUI.makeButton("Show All Records",
             SystemMotorPhGUI.COLOR_PRIMARY);
         showAllBtn.setPreferredSize(new Dimension(150, 28));
-
-        JButton addRcrd = SystemMotorPhGUI.makeButton("Add Employee",
-                SystemMotorPhGUI.COLOR_PRIMARY);
-        addRcrd.setPreferredSize(new Dimension(145, 28));
+// Disabled for PR. Part of MS2.
+//        JButton addRcrd = SystemMotorPhGUI.makeButton("Add Employee",
+//                SystemMotorPhGUI.COLOR_PRIMARY);
+//        addRcrd.setPreferredSize(new Dimension(145, 28));
 
              // Search button - uses refreshTableFiltered()
             searchBtn.addActionListener(e -> {
@@ -226,13 +226,17 @@ public class SystemEmployeePanel {
         });
 
         // Add empployee button
-        addRcrd.addActionListener(e -> {
-            SystemMotorPhGUI.showError(frame,
-                    "TODO IMPLEMENT THE ADD EMPLOYEE RECORDS MENU.");
-            Popup popup = SystemMotorPhGUI.makePopup(frame, new Dimension(907, 400), 100, 100);
-            //TODO: Remove obselete methods
-            popup.show();
-        });
+//        addRcrd.addActionListener(e -> {
+//            SystemMotorPhGUI.showError(frame,
+//                    "TODO IMPLEMENT THE ADD EMPLOYEE RECORDS MENU.");
+//            JPanel panel = new JPanel();
+//            panel.setBackground(Color.red);
+//            Dimension dimension = new Dimension(907, 500);
+//            panel.setPreferredSize(dimension);
+//            Popup popup = SystemMotorPhGUI.makePopup(frame, panel, new Dimension(907, 500), 100, 100);
+//            popup.show();
+//
+//        });
 
         // Enter key on either field triggers search
         KeyAdapter enterKey = new KeyAdapter() {
@@ -250,7 +254,7 @@ public class SystemEmployeePanel {
         bar.add(nameLbl);   bar.add(nameField);
         bar.add(searchBtn); bar.add(clearBtn);
         bar.add(showAllBtn); bar.add(showAllBtn);
-        bar.add(addRcrd); bar.add(addRcrd);
+//        bar.add(addRcrd); bar.add(addRcrd);
 
         return bar;
     }
