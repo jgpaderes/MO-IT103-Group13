@@ -28,6 +28,8 @@ public class DataLoading {
                                HashMap<String, String[]> employeeMap) {
         File file = new File(employeeFile);
         if (!file.exists()) {
+            //debug line start
+            System.out.println(file.getAbsolutePath());
             SystemMotorPhGUI.showWarning(null,
                 "Employee file not found");
             return;
@@ -57,6 +59,8 @@ public class DataLoading {
                                 HashMap<String, List<String[]>> attendanceMap) {
         File file = new File(attendanceFile);
         if (!file.exists()) {
+            //debug line start
+            System.out.println(file.getAbsolutePath());
              SystemMotorPhGUI.showWarning(null,
                 "Attendance File not Found");
             return;
