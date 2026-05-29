@@ -133,10 +133,9 @@ public class SystemMotorPhGUI{
     * Coordinates are relative to the parent where 0,0 is the top left corner of the frame
     * Offsets define the start of the popup
     */
-    static void makePopup(Component parent, Component contents, int widthOffset, int heightOffset){
+    static Popup makePopup(Component parent, Component contents, Dimension dimension, int widthOffset, int heightOffset){
         //TODO: maybe... ensure it's centred without having to fuss about with manual layouts
         //TODO: Add check for if popup exists, if true destroy all popups
-        //TODO: Implement a way to CLOSE popups
         //Get starting point of parent in absolute coordinates.
         Point frameLocation = parent.getLocationOnScreen();
 
@@ -146,6 +145,17 @@ public class SystemMotorPhGUI{
                 (int)frameLocation.getX()+widthOffset,
                 (int)frameLocation.getY()+heightOffset);
 
-        popup.show();
+        return popup;
+    }
+
+    static Dimension setupPadding(Dimension dimension, int widthOffset, int heightOffset){
+        int width = dimension.width;
+        int height = dimension.height;
+
+        width = width - widthOffset;
+        height = height - heightOffset;
+
+        Dimension finalDimension = new Dimension(width, height);
+        return finalDimension;
     }
 }

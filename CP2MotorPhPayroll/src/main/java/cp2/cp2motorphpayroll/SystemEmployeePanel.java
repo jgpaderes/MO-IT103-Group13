@@ -225,7 +225,7 @@ public class SystemEmployeePanel {
                 "Table Cleared");
         });
 
-//         Add empployee button
+        // Add empployee button
 //        addRcrd.addActionListener(e -> {
 //            SystemMotorPhGUI.showError(frame,
 //                    "TODO IMPLEMENT THE ADD EMPLOYEE RECORDS MENU.");
@@ -233,7 +233,9 @@ public class SystemEmployeePanel {
 //            panel.setBackground(Color.red);
 //            Dimension dimension = new Dimension(907, 500);
 //            panel.setPreferredSize(dimension);
-//            SystemMotorPhGUI.makePopup(frame, panel, 100, 100);
+//            Popup popup = SystemMotorPhGUI.makePopup(frame, panel, new Dimension(907, 500), 100, 100);
+//            popup.show();
+//
 //        });
 
         // Enter key on either field triggers search
