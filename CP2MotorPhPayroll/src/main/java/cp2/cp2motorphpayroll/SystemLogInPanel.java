@@ -19,11 +19,11 @@ public class SystemLogInPanel{
         frame.setSize(420, 490);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        frame.getContentPane().setBackground(SystemMotorPhGUI.COLOR_BG);
+        frame.getContentPane().setBackground(SystemGUIHelper.COLOR_BG);
 
         // ── Header banner ──
         JPanel header = new JPanel();
-        header.setBackground(SystemMotorPhGUI.COLOR_PRIMARY);
+        header.setBackground(SystemGUIHelper.COLOR_PRIMARY);
         header.setPreferredSize(new Dimension(420, 110));
         header.setLayout(new GridBagLayout());
 
@@ -46,9 +46,9 @@ public class SystemLogInPanel{
 
         // ── Login form ──
         JPanel form = new JPanel();
-        form.setBackground(SystemMotorPhGUI.COLOR_PANEL);
+        form.setBackground(SystemGUIHelper.COLOR_PANEL);
         form.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(SystemMotorPhGUI.COLOR_BORDER),
+            BorderFactory.createLineBorder(SystemGUIHelper.COLOR_BORDER),
             BorderFactory.createEmptyBorder(28, 36, 28, 36)));
         form.setLayout(new GridBagLayout());
 
@@ -58,33 +58,33 @@ public class SystemLogInPanel{
 
         // Sign In title
         JLabel titleLbl = new JLabel("Sign In");
-        titleLbl.setFont(SystemMotorPhGUI.FONT_TITLE);
-        titleLbl.setForeground(SystemMotorPhGUI.COLOR_SECONDARY);
+        titleLbl.setFont(SystemGUIHelper.FONT_TITLE);
+        titleLbl.setForeground(SystemGUIHelper.COLOR_SECONDARY);
         gbc.gridy = 0; gbc.insets = new Insets(0, 0, 16, 0);
         form.add(titleLbl, gbc);
 
         // Username label + field
         JLabel userLbl = new JLabel("Username");
-        userLbl.setFont(SystemMotorPhGUI.FONT_BOLD);
+        userLbl.setFont(SystemGUIHelper.FONT_BOLD);
         gbc.gridy = 1; gbc.insets = new Insets(4, 0, 2, 0);
         form.add(userLbl, gbc);
 
-        JTextField userField = SystemMotorPhGUI.makeField(20);
+        JTextField userField = SystemGUIHelper.makeField(20);
         userField.setToolTipText("Enter: valid username");
         gbc.gridy = 2; gbc.insets = new Insets(0, 0, 10, 0);
         form.add(userField, gbc);
 
         // Password label + field
         JLabel passLbl = new JLabel("Password");
-        passLbl.setFont(SystemMotorPhGUI.FONT_BOLD);
+        passLbl.setFont(SystemGUIHelper.FONT_BOLD);
         gbc.gridy = 3; gbc.insets = new Insets(4, 0, 2, 0);
         form.add(passLbl, gbc);
 
         JPasswordField passField = new JPasswordField(20);
-        passField.setFont(SystemMotorPhGUI.FONT_LABEL);
-        passField.setBackground(SystemMotorPhGUI.COLOR_FIELD_BG);
+        passField.setFont(SystemGUIHelper.FONT_LABEL);
+        passField.setBackground(SystemGUIHelper.COLOR_FIELD_BG);
         passField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(SystemMotorPhGUI.COLOR_BORDER),
+            BorderFactory.createLineBorder(SystemGUIHelper.COLOR_BORDER),
             BorderFactory.createEmptyBorder(4, 8, 4, 8)));
         passField.setToolTipText("Enter: valid password");
         gbc.gridy = 4; gbc.insets = new Insets(0, 0, 6, 0);
@@ -92,14 +92,14 @@ public class SystemLogInPanel{
 
         // Attempt warning label
         JLabel attemptLbl = new JLabel(" ");
-        attemptLbl.setFont(SystemMotorPhGUI.FONT_SMALL);
-        attemptLbl.setForeground(SystemMotorPhGUI.COLOR_ERROR);
+        attemptLbl.setFont(SystemGUIHelper.FONT_SMALL);
+        attemptLbl.setForeground(SystemGUIHelper.COLOR_ERROR);
         gbc.gridy = 5; gbc.insets = new Insets(0, 0, 8, 0);
         form.add(attemptLbl, gbc);
 
         // Login button
-        JButton loginBtn = SystemMotorPhGUI.makeButton("LOGIN",
-            SystemMotorPhGUI.COLOR_PRIMARY);
+        JButton loginBtn = SystemGUIHelper.makeButton("LOGIN",
+                SystemGUIHelper.COLOR_PRIMARY);
         loginBtn.setPreferredSize(new Dimension(100, 36));
         gbc.gridy = 6; gbc.insets = new Insets(4, 0, 0, 0);
         form.add(loginBtn, gbc);
@@ -108,7 +108,7 @@ public class SystemLogInPanel{
         Runnable doLogin = () -> {
             // Lockout check
             if (failedAttempts >= MAX_ATTEMPTS) {
-                SystemMotorPhGUI.showError(frame,
+                SystemGUIHelper.showError(frame,
                     "Too many failed attempts.\nPlease restart the application.");
                 return;
             }
@@ -118,18 +118,18 @@ public class SystemLogInPanel{
 
             // Safeguard 1: both empty
             if (username.isEmpty() && password.isEmpty()) {
-                SystemMotorPhGUI.showError(frame,
+                SystemGUIHelper.showError(frame,
                     "Username and password cannot be empty.");
                 return;
             }
             // Safeguard 2: username empty
             if (username.isEmpty()) {
-                SystemMotorPhGUI.showError(frame, "Username cannot be empty.");
+                SystemGUIHelper.showError(frame, "Username cannot be empty.");
                 userField.requestFocus(); return;
             }
             // Safeguard 3: password empty
             if (password.isEmpty()) {
-                SystemMotorPhGUI.showError(frame, "Password cannot be empty.");
+                SystemGUIHelper.showError(frame, "Password cannot be empty.");
                 passField.requestFocus(); return;
             }
             
@@ -181,14 +181,14 @@ public class SystemLogInPanel{
 
         // Assemble 
         JPanel outer = new JPanel(new BorderLayout(0, 16));
-        outer.setBackground(SystemMotorPhGUI.COLOR_BG);
+        outer.setBackground(SystemGUIHelper.COLOR_BG);
         outer.setBorder(BorderFactory.createEmptyBorder(0, 32, 32, 32));
         outer.add(form, BorderLayout.CENTER);
 
         JLabel hint = new JLabel(
             "MotorPh Automatic Payroll System © 2026",
             SwingConstants.CENTER);
-        hint.setFont(SystemMotorPhGUI.FONT_SMALL);
+        hint.setFont(SystemGUIHelper.FONT_SMALL);
         hint.setForeground(Color.GRAY);
         outer.add(hint, BorderLayout.SOUTH);
 
@@ -198,6 +198,6 @@ public class SystemLogInPanel{
         frame.setVisible(true);
         userField.requestFocusInWindow();
         }
-                }
+}
 
 

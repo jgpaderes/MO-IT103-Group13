@@ -30,7 +30,7 @@ public class DataLoading {
         if (!file.exists()) {
             //debug line start
             System.out.println(file.getAbsolutePath());
-            SystemMotorPhGUI.showWarning(null,
+            SystemGUIHelper.showWarning(null,
                 "Employee file not found");
             return;
         }
@@ -49,7 +49,7 @@ public class DataLoading {
             }
             System.out.println("[DataLoading] Employees loaded: " + count);
         } catch (IOException e) {
-             SystemMotorPhGUI.showWarning(null,
+            SystemGUIHelper.showWarning(null,
                 "Error reading employee file");
         }
     }
@@ -61,7 +61,7 @@ public class DataLoading {
         if (!file.exists()) {
             //debug line start
             System.out.println(file.getAbsolutePath());
-             SystemMotorPhGUI.showWarning(null,
+            SystemGUIHelper.showWarning(null,
                 "Attendance File not Found");
             return;
         }
@@ -82,7 +82,7 @@ public class DataLoading {
             }
             System.out.println("[DataLoading] Attendance records loaded: " + count);
         } catch (IOException e) {
-             SystemMotorPhGUI.showWarning(null,
+            SystemGUIHelper.showWarning(null,
                 "Error Reading Attendance File");
         }
     }
