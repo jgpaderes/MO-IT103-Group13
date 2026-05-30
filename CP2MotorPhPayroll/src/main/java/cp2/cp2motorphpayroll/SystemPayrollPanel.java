@@ -1,7 +1,6 @@
 package cp2.cp2motorphpayroll;
 
 import javax.swing.*;
-import javax.swing.border.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -22,10 +21,10 @@ public class SystemPayrollPanel {
         frame.setSize(1275, 660);
         frame.setLocationRelativeTo(null);
         frame.getContentPane()
-             .setBackground(SystemMotorPhGUI.COLOR_BG);
+             .setBackground(SystemGUIHelper.COLOR_BG);
 
         // HEADER
-        JPanel header = SystemMotorPhGUI.buildHeader(
+        JPanel header = SystemGUIHelper.buildHeader(
             "Payroll Staff Portal",
             frame,
             1000,
@@ -34,10 +33,10 @@ public class SystemPayrollPanel {
 
         // CONTROLS PANEL
         JPanel controls = new JPanel(new GridBagLayout());
-        controls.setBackground(SystemMotorPhGUI.COLOR_PANEL);
+        controls.setBackground(SystemGUIHelper.COLOR_PANEL);
         controls.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createMatteBorder(
-                0, 0, 1, 0, SystemMotorPhGUI.COLOR_BORDER),
+                0, 0, 1, 0, SystemGUIHelper.COLOR_BORDER),
             BorderFactory.createEmptyBorder(10, 14, 10, 14)));
 
         GridBagConstraints c = new GridBagConstraints();
@@ -51,7 +50,7 @@ public class SystemPayrollPanel {
         c.gridx = 0; c.gridy = 0;
 
         JLabel yearLbl = new JLabel("Year:");
-        yearLbl.setFont(SystemMotorPhGUI.FONT_SMALL);
+        yearLbl.setFont(SystemGUIHelper.FONT_SMALL);
         controls.add(yearLbl, c);
 
         c.gridx = 1;
@@ -59,7 +58,7 @@ public class SystemPayrollPanel {
         SpinnerNumberModel yearModel =
             new SpinnerNumberModel(currentYear, 2020, currentYear, 1);
         JSpinner yearSpinner = new JSpinner(yearModel);
-        yearSpinner.setFont(SystemMotorPhGUI.FONT_LABEL);
+        yearSpinner.setFont(SystemGUIHelper.FONT_LABEL);
         yearSpinner.setPreferredSize(new Dimension(80, 28));
         yearSpinner.setToolTipText(
             "Select year 2020 – " + currentYear);
@@ -75,7 +74,7 @@ public class SystemPayrollPanel {
         c.gridx = 2;
 
         JLabel monthLbl = new JLabel("Month:");
-        monthLbl.setFont(SystemMotorPhGUI.FONT_SMALL);
+        monthLbl.setFont(SystemGUIHelper.FONT_SMALL);
         controls.add(monthLbl, c);
 
         c.gridx = 3;
@@ -90,17 +89,17 @@ public class SystemPayrollPanel {
 
         JComboBox<String> monthCombo =
             new JComboBox<>(months);
-        monthCombo.setFont(SystemMotorPhGUI.FONT_LABEL);
+        monthCombo.setFont(SystemGUIHelper.FONT_LABEL);
         monthCombo.setPreferredSize(new Dimension(130, 28));
         monthCombo.setBackground(
-            SystemMotorPhGUI.COLOR_FIELD_BG);
+                SystemGUIHelper.COLOR_FIELD_BG);
         controls.add(monthCombo, c);
 
         // ROW 0 - RADIO BUTTONS
         c.gridx = 4;
 
         JLabel scopeLbl = new JLabel("Process:");
-        scopeLbl.setFont(SystemMotorPhGUI.FONT_SMALL);
+        scopeLbl.setFont(SystemGUIHelper.FONT_SMALL);
         controls.add(scopeLbl, c);
 
         JRadioButton oneEmpBtn =
@@ -108,10 +107,10 @@ public class SystemPayrollPanel {
         JRadioButton allEmpBtn =
             new JRadioButton("All Employees");
 
-        oneEmpBtn.setFont(SystemMotorPhGUI.FONT_LABEL);
-        allEmpBtn.setFont(SystemMotorPhGUI.FONT_LABEL);
-        oneEmpBtn.setBackground(SystemMotorPhGUI.COLOR_PANEL);
-        allEmpBtn.setBackground(SystemMotorPhGUI.COLOR_PANEL);
+        oneEmpBtn.setFont(SystemGUIHelper.FONT_LABEL);
+        allEmpBtn.setFont(SystemGUIHelper.FONT_LABEL);
+        oneEmpBtn.setBackground(SystemGUIHelper.COLOR_PANEL);
+        allEmpBtn.setBackground(SystemGUIHelper.COLOR_PANEL);
         oneEmpBtn.setSelected(true);
 
         ButtonGroup scopeGroup = new ButtonGroup();
@@ -126,13 +125,13 @@ public class SystemPayrollPanel {
         c.gridy = 1; c.gridx = 0;
 
         JLabel empNumLbl = new JLabel("Employee #:");
-        empNumLbl.setFont(SystemMotorPhGUI.FONT_SMALL);
+        empNumLbl.setFont(SystemGUIHelper.FONT_SMALL);
         controls.add(empNumLbl, c);
 
         c.gridx = 1;
 
         JTextField empNumField =
-            SystemMotorPhGUI.makeField(10);
+                SystemGUIHelper.makeField(10);
         empNumField.setPreferredSize(new Dimension(110, 28));
         controls.add(empNumField, c);
 
@@ -140,13 +139,13 @@ public class SystemPayrollPanel {
         c.gridx = 2;
 
         JLabel empNameLbl = new JLabel("Employee Name:");
-        empNameLbl.setFont(SystemMotorPhGUI.FONT_SMALL);
+        empNameLbl.setFont(SystemGUIHelper.FONT_SMALL);
         controls.add(empNameLbl, c);
 
         c.gridx = 3;
 
         JTextField empNameField =
-            SystemMotorPhGUI.makeField(14);
+                SystemGUIHelper.makeField(14);
         empNameField.setEditable(false);
         empNameField.setPreferredSize(new Dimension(160, 28));
         empNameField.setBackground(new Color(238, 238, 238));
@@ -156,13 +155,13 @@ public class SystemPayrollPanel {
         c.gridx = 4;
 
         JLabel payCovLbl = new JLabel("Pay Coverage:");
-        payCovLbl.setFont(SystemMotorPhGUI.FONT_SMALL);
+        payCovLbl.setFont(SystemGUIHelper.FONT_SMALL);
         controls.add(payCovLbl, c);
 
         c.gridx = 5; c.gridwidth = 2;
 
         JTextField payCovField =
-            SystemMotorPhGUI.makeField(18);
+                SystemGUIHelper.makeField(18);
         payCovField.setPreferredSize(new Dimension(200, 28));
         controls.add(payCovField, c);
 
@@ -172,7 +171,7 @@ public class SystemPayrollPanel {
         // ROW 2 - BUTTONS
         c.gridy = 2; c.gridx = 0; c.gridwidth = 2;
 
-        JButton summaryBtn = SystemMotorPhGUI.makeButton(
+        JButton summaryBtn = SystemGUIHelper.makeButton(
             "Generate Summary",
             new Color(30, 80, 160));
         summaryBtn.setPreferredSize(new Dimension(180, 32));
@@ -182,7 +181,7 @@ public class SystemPayrollPanel {
 
         JLabel hint = new JLabel(
             "                          * Pay Coverage: e.g. 2024-01-01 to 2024-01-31");
-        hint.setFont(SystemMotorPhGUI.FONT_SMALL);
+        hint.setFont(SystemGUIHelper.FONT_SMALL);
         hint.setForeground(Color.GRAY);
         controls.add(hint, c);
 
@@ -203,17 +202,17 @@ public class SystemPayrollPanel {
         };
 
         JTable table = new JTable(tableModel);
-        table.setFont(SystemMotorPhGUI.FONT_TABLE);
+        table.setFont(SystemGUIHelper.FONT_TABLE);
         table.setRowHeight(24);
-        table.setGridColor(SystemMotorPhGUI.COLOR_BORDER);
+        table.setGridColor(SystemGUIHelper.COLOR_BORDER);
         table.setSelectionBackground(new Color(200, 210, 255));
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.getTableHeader().setFont(
-            SystemMotorPhGUI.FONT_BOLD);
+                SystemGUIHelper.FONT_BOLD);
         table.getTableHeader().setBackground(
             new Color(240, 240, 240));
         table.getTableHeader().setForeground(
-            SystemMotorPhGUI.COLOR_SECONDARY);
+                SystemGUIHelper.COLOR_SECONDARY);
 
         // Column widths
         int[] colWidths = {
@@ -238,24 +237,25 @@ public class SystemPayrollPanel {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBorder(
             BorderFactory.createLineBorder(
-                SystemMotorPhGUI.COLOR_BORDER));
+                    SystemGUIHelper.COLOR_BORDER));
+
+
 
         // STATUS BAR
         statusBar = new JLabel("  Ready.");
-        statusBar.setFont(SystemMotorPhGUI.FONT_SMALL);
+        statusBar.setFont(SystemGUIHelper.FONT_SMALL);
         statusBar.setForeground(Color.GRAY);
         statusBar.setOpaque(true);
-        statusBar.setBackground(SystemMotorPhGUI.COLOR_PANEL);
+        statusBar.setBackground(SystemGUIHelper.COLOR_PANEL);
         statusBar.setBorder(
             BorderFactory.createMatteBorder(
                 1, 0, 0, 0,
-                SystemMotorPhGUI.COLOR_BORDER));
+                    SystemGUIHelper.COLOR_BORDER));
         statusBar.setPreferredSize(new Dimension(1000, 24));
-
 
         // MAIN CONTENT PANEL
         JPanel content = new JPanel(new BorderLayout());
-        content.setBackground(SystemMotorPhGUI.COLOR_BG);
+        content.setBackground(SystemGUIHelper.COLOR_BG);
         content.add(controls,   BorderLayout.NORTH);
         content.add(scrollPane, BorderLayout.CENTER);
         content.add(statusBar,  BorderLayout.SOUTH);
@@ -265,7 +265,6 @@ public class SystemPayrollPanel {
         frame.add(header,  BorderLayout.NORTH);
         frame.add(content, BorderLayout.CENTER);
         frame.setVisible(true);
-
 
         // EVENT - radio buttons toggle emp# field
         oneEmpBtn.addActionListener(e -> {
@@ -286,7 +285,7 @@ public class SystemPayrollPanel {
                 String num = empNumField.getText().trim();
                 if (!num.isEmpty() && num.matches("\\d+")) {
                     String[] data =
-                        SystemMotorPhGUI.employeeMap.get(num);
+                        EntryPoint.employeeMap.get(num);
                     empNameField.setText(data != null
                         ? DataLoading.safeGet(data, 1)
                           + ", "
@@ -300,13 +299,13 @@ public class SystemPayrollPanel {
 
         // EVENT - Generate Summary button
         summaryBtn.addActionListener(e -> {
-            if (SystemMotorPhGUI.employeeMap.isEmpty()) {
-                SystemMotorPhGUI.showError(frame,
+            if (EntryPoint.employeeMap.isEmpty()) {
+                SystemGUIHelper.showError(frame,
                     "Employee data is not loaded.\n"
                     + "Please verify the CSV file exists.");
                 return;
             }
-            SystemMotorPhGUI.showInfo(frame,
+            SystemGUIHelper.showInfo(frame,
                 "Payroll Summary Generated.");
         });
     }

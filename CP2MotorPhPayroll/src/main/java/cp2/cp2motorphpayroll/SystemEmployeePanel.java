@@ -2,7 +2,6 @@ package cp2.cp2motorphpayroll;
 
 import java.util.*;  
 import javax.swing.*;
-import javax.swing.border.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -29,10 +28,10 @@ public class SystemEmployeePanel {
     static void show() {
         frame = new JFrame("MotorPh — Employee Portal");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(SystemMotorPhGUI.startingPanel);
+        frame.setSize(1107, 640);
         frame.setLocationRelativeTo(null);
 
-        JPanel header = SystemMotorPhGUI.buildHeader(
+        JPanel header = SystemGUIHelper.buildHeader(
             "Employee Portal", frame, 1207,
             () -> SystemLogInPanel.showLogin());
 
@@ -40,17 +39,17 @@ public class SystemEmployeePanel {
         buildTable();
       
         JLabel statusBar = new JLabel(
-            "  " + SystemMotorPhGUI.employeeMap.size()
+            "  " + EntryPoint.employeeMap.size()
             + " employee(s) loaded.");
-        statusBar.setFont(SystemMotorPhGUI.FONT_SMALL);
+        statusBar.setFont(SystemGUIHelper.FONT_SMALL);
         statusBar.setForeground(Color.GRAY);
         statusBar.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
-            SystemMotorPhGUI.COLOR_BORDER));
+                SystemGUIHelper.COLOR_BORDER));
         statusBar.setPreferredSize(new Dimension(1107, 24));
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBorder(BorderFactory.createLineBorder(
-            SystemMotorPhGUI.COLOR_BORDER));
+                SystemGUIHelper.COLOR_BORDER));
 
         JPanel center = new JPanel(new BorderLayout());
         center.add(searchBar,  BorderLayout.NORTH);
@@ -70,12 +69,12 @@ public class SystemEmployeePanel {
             public boolean isCellEditable(int r, int c) { return false; }
         };
         table = new JTable(tableModel);
-        table.setFont(SystemMotorPhGUI.FONT_TABLE);
+        table.setFont(SystemGUIHelper.FONT_TABLE);
         table.setRowHeight(24);
-        table.setGridColor(SystemMotorPhGUI.COLOR_BORDER);
+        table.setGridColor(SystemGUIHelper.COLOR_BORDER);
         table.setSelectionBackground(new Color(84, 149, 233));
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.getTableHeader().setFont(SystemMotorPhGUI.FONT_BOLD);
+        table.getTableHeader().setFont(SystemGUIHelper.FONT_BOLD);
         table.getTableHeader().setBackground(new Color(240, 240, 240));
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
@@ -89,11 +88,11 @@ public class SystemEmployeePanel {
     static void refreshTable() {
     tableModel.setRowCount(0);
         var keys = new ArrayList<String>();
-    keys.addAll(SystemMotorPhGUI.employeeMap.keySet());
+    keys.addAll(EntryPoint.employeeMap.keySet());
     Collections.sort(keys);
 
     for (String key : keys) {
-        String[] data = SystemMotorPhGUI.employeeMap.get(key);
+        String[] data = EntryPoint.employeeMap.get(key);
         Object[] row  = new Object[COLUMNS.length];
         for (int i = 0; i < CSV_INDICES.length; i++)
             row[i] = DataLoading.safeGet(data, CSV_INDICES[i]);
@@ -106,11 +105,11 @@ public class SystemEmployeePanel {
     static void refreshTableFiltered(String empNum, String name) {
     tableModel.setRowCount(0);
         var keys = new ArrayList<String>();
-    keys.addAll(SystemMotorPhGUI.employeeMap.keySet());
+    keys.addAll(EntryPoint.employeeMap.keySet());
     Collections.sort(keys);
 
     for (String key : keys) {
-        String[] data = SystemMotorPhGUI.employeeMap.get(key);
+        String[] data = EntryPoint.employeeMap.get(key);
         Object[] row  = new Object[COLUMNS.length];
         for (int i = 0; i < CSV_INDICES.length; i++)
             row[i] = DataLoading.safeGet(data, CSV_INDICES[i]);
@@ -129,37 +128,37 @@ public class SystemEmployeePanel {
     // BUILD SEARCH BAR
     private static JPanel buildSearchBar() {
         JPanel bar = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 8));
-        bar.setBackground(SystemMotorPhGUI.COLOR_PANEL);
+        bar.setBackground(SystemGUIHelper.COLOR_PANEL);
         bar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
-            SystemMotorPhGUI.COLOR_BORDER));
+                SystemGUIHelper.COLOR_BORDER));
 
         JLabel empNumLbl = new JLabel("Employee Number:");
-        empNumLbl.setFont(SystemMotorPhGUI.FONT_BOLD);
+        empNumLbl.setFont(SystemGUIHelper.FONT_BOLD);
 
-        JTextField empNumField = SystemMotorPhGUI.makeField(10);
+        JTextField empNumField = SystemGUIHelper.makeField(10);
         empNumField.setPreferredSize(new Dimension(110, 28));
      
         JLabel nameLbl = new JLabel("Employee Name:");
-        nameLbl.setFont(SystemMotorPhGUI.FONT_BOLD);
+        nameLbl.setFont(SystemGUIHelper.FONT_BOLD);
 
-        JTextField nameField = SystemMotorPhGUI.makeField(14);
+        JTextField nameField = SystemGUIHelper.makeField(14);
         nameField.setPreferredSize(new Dimension(160, 28));
 
-        JButton searchBtn = SystemMotorPhGUI.makeButton("Search",
-            SystemMotorPhGUI.COLOR_PRIMARY);
+        JButton searchBtn = SystemGUIHelper.makeButton("Search",
+                SystemGUIHelper.COLOR_PRIMARY);
         searchBtn.setPreferredSize(new Dimension(90, 28));
 
-        JButton clearBtn = SystemMotorPhGUI.makeButton("Clear",
+        JButton clearBtn = SystemGUIHelper.makeButton("Clear",
             new Color(120, 120, 120));
         clearBtn.setPreferredSize(new Dimension(70, 28));
         
-        JButton showAllBtn = SystemMotorPhGUI.makeButton("Show All Records",
-            SystemMotorPhGUI.COLOR_PRIMARY);
+        JButton showAllBtn = SystemGUIHelper.makeButton("Show All Records",
+                SystemGUIHelper.COLOR_PRIMARY);
         showAllBtn.setPreferredSize(new Dimension(150, 28));
-// Disabled for PR. Part of MS2.
-//        JButton addRcrd = SystemMotorPhGUI.makeButton("Add Employee",
-//                SystemMotorPhGUI.COLOR_PRIMARY);
-//        addRcrd.setPreferredSize(new Dimension(145, 28));
+
+        JButton addRcrd = SystemGUIHelper.makeButton("Add Employee",
+                SystemGUIHelper.COLOR_PRIMARY);
+        addRcrd.setPreferredSize(new Dimension(145, 28));
 
              // Search button - uses refreshTableFiltered()
             searchBtn.addActionListener(e -> {
@@ -168,7 +167,7 @@ public class SystemEmployeePanel {
 
             // Safeguard: emp number must be numeric if provided
             if (!empNum.isEmpty() && !empNum.matches("\\d+")) {
-                SystemMotorPhGUI.showError(frame,
+                SystemGUIHelper.showError(frame,
                     """
                     Employee number must contain digits only.
                    Example: 10001""");
@@ -178,15 +177,15 @@ public class SystemEmployeePanel {
 
             // Safeguard: at least one field should have input
             if (empNum.isEmpty() && name.isEmpty()) {
-                SystemMotorPhGUI.showWarning(frame,
+                SystemGUIHelper.showWarning(frame,
                     "Please enter an employee number or name to search.");
                 return;
             }
             
             // Safeguard: employee number not found in CSV
             if (!empNum.isEmpty()
-                && !SystemMotorPhGUI.employeeMap.containsKey(empNum)) {
-            SystemMotorPhGUI.showError(frame,
+                && !EntryPoint.employeeMap.containsKey(empNum)) {
+                SystemGUIHelper.showError(frame,
                 "Employee Number \"" + empNum + "\" was not found.\n"
                 + "Please check the number and try again.");
             empNumField.requestFocus();
@@ -198,7 +197,7 @@ public class SystemEmployeePanel {
 
              // Exception handling: employee name not found in CSV
              if (tableModel.getRowCount() == 0 && !name.isEmpty()) {
-                SystemMotorPhGUI.showError(frame,
+                 SystemGUIHelper.showError(frame,
                     "No employee found with name containing \""
                     + nameField.getText().trim() + "\".\n"
                     + "Please check the name and try again.");
@@ -220,21 +219,22 @@ public class SystemEmployeePanel {
             empNumField.setText("");
             nameField.setText("");
         tableModel.setRowCount(0);
-         
-             SystemMotorPhGUI.showInfo(frame,
+
+            SystemGUIHelper.showInfo(frame,
                 "Table Cleared");
         });
 
-//         Add empployee button
-//        addRcrd.addActionListener(e -> {
-//            SystemMotorPhGUI.showError(frame,
-//                    "TODO IMPLEMENT THE ADD EMPLOYEE RECORDS MENU.");
-//            JPanel panel = new JPanel();
-//            panel.setBackground(Color.red);
-//            Dimension dimension = new Dimension(907, 500);
-//            panel.setPreferredSize(dimension);
-//            SystemMotorPhGUI.makePopup(frame, panel, 100, 100);
-//        });
+//      Add empployee button
+        addRcrd.addActionListener(e -> {
+            //Set up your custom panel here
+            JPanel panel = new JPanel();
+            panel.setBackground(Color.red);
+            Dimension dimension = new Dimension(907, 500);
+            panel.setPreferredSize(dimension);
+
+            //Pass it here
+            SystemGUIHelper.makePopup(frame, panel, 100, 100);
+        });
 
         // Enter key on either field triggers search
         KeyAdapter enterKey = new KeyAdapter() {
