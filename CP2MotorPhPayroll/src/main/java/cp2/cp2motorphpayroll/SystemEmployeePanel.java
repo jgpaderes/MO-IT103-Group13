@@ -6,6 +6,7 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import static cp2.cp2motorphpayroll.TempraryClass.showEmployeeAddPanel;
 
 
 public class SystemEmployeePanel {
@@ -24,6 +25,8 @@ public class SystemEmployeePanel {
     static JTable            table;
     static JFrame            frame;
 
+
+
     // SHOW PANEL
     static void show() {
         frame = new JFrame("MotorPh — Employee Portal");
@@ -31,13 +34,14 @@ public class SystemEmployeePanel {
         frame.setSize(1107, 640);
         frame.setLocationRelativeTo(null);
 
+
         JPanel header = SystemGUIHelper.buildHeader(
             "Employee Portal", frame, 1207,
             () -> SystemLogInPanel.showLogin());
 
         JPanel searchBar = buildSearchBar();
         buildTable();
-      
+
         JLabel statusBar = new JLabel(
             "  " + EntryPoint.employeeMap.size()
             + " employee(s) loaded.");
@@ -54,7 +58,7 @@ public class SystemEmployeePanel {
         JPanel center = new JPanel(new BorderLayout());
         center.add(searchBar,  BorderLayout.NORTH);
         center.add(scrollPane, BorderLayout.CENTER);
-       
+
         frame.setLayout(new BorderLayout());
         frame.add(header,    BorderLayout.NORTH);
         frame.add(center,    BorderLayout.CENTER);
@@ -137,7 +141,7 @@ public class SystemEmployeePanel {
 
         JTextField empNumField = SystemGUIHelper.makeField(10);
         empNumField.setPreferredSize(new Dimension(110, 28));
-     
+
         JLabel nameLbl = new JLabel("Employee Name:");
         nameLbl.setFont(SystemGUIHelper.FONT_BOLD);
 
@@ -151,7 +155,7 @@ public class SystemEmployeePanel {
         JButton clearBtn = SystemGUIHelper.makeButton("Clear",
             new Color(120, 120, 120));
         clearBtn.setPreferredSize(new Dimension(70, 28));
-        
+
         JButton showAllBtn = SystemGUIHelper.makeButton("Show All Records",
                 SystemGUIHelper.COLOR_PRIMARY);
         showAllBtn.setPreferredSize(new Dimension(150, 28));
@@ -181,7 +185,7 @@ public class SystemEmployeePanel {
                     "Please enter an employee number or name to search.");
                 return;
             }
-            
+
             // Safeguard: employee number not found in CSV
             if (!empNum.isEmpty()
                 && !EntryPoint.employeeMap.containsKey(empNum)) {
@@ -191,7 +195,7 @@ public class SystemEmployeePanel {
             empNumField.requestFocus();
             return;
             }
-            
+
             // Run the filtered search
              refreshTableFiltered(empNum, name);
 
@@ -203,7 +207,7 @@ public class SystemEmployeePanel {
                     + "Please check the name and try again.");
             return;
         }
-            
+
             refreshTableFiltered(empNum, name);
         });
 
@@ -213,7 +217,7 @@ public class SystemEmployeePanel {
             nameField.setText("");
             refreshTable();
         });
-        
+
         // Clear button
         clearBtn.addActionListener(e -> {
             empNumField.setText("");
@@ -226,14 +230,7 @@ public class SystemEmployeePanel {
 
 //      Add empployee button
         addRcrd.addActionListener(e -> {
-            //Set up your custom panel here
-            JPanel panel = new JPanel();
-            panel.setBackground(Color.red);
-            Dimension dimension = new Dimension(907, 500);
-            panel.setPreferredSize(dimension);
-
-            //Pass it here
-            SystemGUIHelper.makePopup(frame, panel, 100, 100);
+            showEmployeeAddPanel(frame);
         });
 
         // Enter key on either field triggers search
@@ -252,9 +249,10 @@ public class SystemEmployeePanel {
         bar.add(nameLbl);   bar.add(nameField);
         bar.add(searchBtn); bar.add(clearBtn);
         bar.add(showAllBtn); bar.add(showAllBtn);
-//        bar.add(addRcrd); bar.add(addRcrd);
+        bar.add(addRcrd); bar.add(addRcrd);
 
         return bar;
+
     }
 }
     
