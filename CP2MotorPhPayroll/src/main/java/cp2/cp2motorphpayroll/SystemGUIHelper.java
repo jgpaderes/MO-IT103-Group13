@@ -38,7 +38,7 @@ public class SystemGUIHelper {
     }
 
     /*Creates a styled text input field*/
-    static JTextField makeField(int cols) {
+    public static JTextField makeField(int cols) {
         JTextField f = new JTextField(cols);
         f.setFont(FONT_LABEL);
         f.setBackground(COLOR_FIELD_BG);
@@ -119,5 +119,13 @@ public class SystemGUIHelper {
                 (int)frameLocation.getY()+heightOffset);
 
         popup.show();
+    }
+
+    public static void showDarkBackground(JFrame frame, Runnable popupAction) {
+        // 1. Create a mock UI for creating an employee
+        // 2. Set it up so after an employee is created they're the last entry
+        // 3. Implement a saving feature where new employees are saved into memory
+        // 4. Add QoL like transparent overlays
+
     }
 }
