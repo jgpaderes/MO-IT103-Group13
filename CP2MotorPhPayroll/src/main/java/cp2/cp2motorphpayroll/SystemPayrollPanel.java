@@ -262,10 +262,10 @@ public class SystemPayrollPanel {
                     String[] data =
                             EntryPoint.employeeMap.get(num);
                     empNameField.setText(data != null
-                            ? DataLoading.safeGet(data, 1)
-                              + ", "
-                              + DataLoading.safeGet(data, 2)
-                            : "Not found");
+                        ? DataProcessing.safeGet(data, 1)
+                          + ", "
+                          + DataProcessing.safeGet(data, 2)
+                        : "Not found");
                 } else {
                     empNameField.setText("");
                 }
