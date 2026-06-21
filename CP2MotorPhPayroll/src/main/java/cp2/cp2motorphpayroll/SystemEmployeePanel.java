@@ -20,7 +20,7 @@ public class SystemEmployeePanel {
     // Corresponding CSV column indices for each display column
     static final int[] CSV_INDICES = {0, 1, 2, 3, 5, 6, 7, 8, 10, 9, 16};
 
-    // ── SHARED FIELD DEFINITIONS ──────────────────────────────
+    // SHARED FIELD DEFINITIONS
     // Used by View, Add, and Edit dialogs so the field list,
     // label, CSV index, and required flag are defined ONCE.
     // { label, csvIndex, required }
@@ -53,9 +53,7 @@ public class SystemEmployeePanel {
     static JTable            table;
     static JFrame            frame;
 
-    // ============================================================
     // SHOW PANEL
-    // ============================================================
     static void show() {
         frame = new JFrame("MotorPh — Employee Portal");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -105,9 +103,7 @@ public class SystemEmployeePanel {
         frame.setVisible(true);
     }
 
-    // ============================================================
-    // ACTION BAR — CRUD buttons below the table
-    // ============================================================
+    // ACTION BAR - CRUD buttons
     private static JPanel buildActionBar(JTable table) {
         JPanel bar = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 8));
         bar.setBackground(SystemGUIHelper.COLOR_PANEL);
@@ -159,9 +155,7 @@ public class SystemEmployeePanel {
         return bar;
     }
 
-    // ============================================================
     // BUILD TABLE
-    // ============================================================
     private static void buildTable() {
         tableModel = new DefaultTableModel(COLUMNS, 0) {
             @Override
@@ -182,18 +176,12 @@ public class SystemEmployeePanel {
             table.getColumnModel().getColumn(i).setPreferredWidth(colWidths[i]);
     }
 
-    // ============================================================
-    // REFRESH TABLE — shows ALL rows
-    // ============================================================
+    // REFRESH TABLE - shows ALL rows
     static void refreshTable() {
         refreshTableFiltered("", "");
     }
 
-    // ============================================================
-    // REFRESH TABLE FILTERED — rows matching search input
-    // (refreshTable() now just calls this with empty filters,
-    //  so the row-building logic only exists in one place)
-    // ============================================================
+    // REFRESH TABLE FILTERED 
     static void refreshTableFiltered(String empNum, String name) {
         tableModel.setRowCount(0);
         var keys = new ArrayList<String>(EntryPoint.employeeMap.keySet());
@@ -216,9 +204,7 @@ public class SystemEmployeePanel {
         }
     }
 
-    // ============================================================
     // VIEW DIALOG — shows full details for the selected row
-    // ============================================================
     private static void showViewDialog(int tableRow) {
 
         String empNum = String.valueOf(tableModel.getValueAt(tableRow, 0));
@@ -310,9 +296,7 @@ public class SystemEmployeePanel {
         dialog.setVisible(true);
     }
 
-    // ============================================================
     // ADD EMPLOYEE DIALOG
-    // ============================================================
     static void showAddDialog() {
 
         JTextField[] inputs = new JTextField[19];
@@ -415,7 +399,7 @@ public class SystemEmployeePanel {
         addEmployeePopup.setVisible(true); // blocks until closed
     }
 
-    // ADD COLUMN — helper for showAddDialog()'s 4-column layout
+    // ADD COLUMN - helper for showAddDialog()'s 4-column layout
     private static void addColumn(JPanel container, GridBagConstraints gbc,
                                   Object[][] fields, int colIndex,
                                   JTextField[] inputs) {
@@ -439,9 +423,7 @@ public class SystemEmployeePanel {
         }
     }
 
-    // ============================================================
     // EDIT EMPLOYEE DIALOG
-    // ============================================================
     private static void showEditDialog(int tableRow) {
 
         String oldEmpNum = String.valueOf(tableModel.getValueAt(tableRow, 0));
@@ -520,7 +502,7 @@ public class SystemEmployeePanel {
 
         cancelBtn.addActionListener(e -> dialog.dispose());
 
-        // Save action — validation now goes through the shared helper
+        // Save action
         saveBtn.addActionListener(e -> {
             String[] newData = collectInputs(inputs);
             if (!validateEmployeeData(dialog, newData, inputs)) return;
@@ -558,11 +540,7 @@ public class SystemEmployeePanel {
         dialog.setVisible(true);
     }
 
-    // ============================================================
-    // SHARED HELPER — collect text from all 19 input fields
-    // Used by both Add and Edit so the array-building code
-    // only needs to exist once.
-    // ============================================================
+    // SHARED HELPER - Array builder for Add and Edit Employee
     private static String[] collectInputs(JTextField[] inputs) {
         String[] data = new String[19];
         for (int i = 0; i < 19; i++)
@@ -570,13 +548,7 @@ public class SystemEmployeePanel {
         return data;
     }
 
-    // ============================================================
-    // SHARED HELPER — validate employee data
-    // Used by both Add and Edit so all the required-field and
-    // numeric-field checks only need to be written once.
-    // Returns true if the data is valid, false if not
-    // (and shows the appropriate error message itself).
-    // ============================================================
+    // SHARED HELPER — validate employee data for Add and Edit Employee
     private static boolean validateEmployeeData(Component parent,
                                                 String[] data,
                                                 JTextField[] inputs) {
@@ -621,17 +593,13 @@ public class SystemEmployeePanel {
         return true;
     }
 
-    // Finds the FIELD_DEFS row index for a given CSV column index
-    // (small helper so validateEmployeeData can look up field labels)
     private static int indexOfField(int csvIdx) {
         for (int i = 0; i < FIELD_DEFS.length; i++)
             if ((Integer) FIELD_DEFS[i][1] == csvIdx) return i;
         return -1;
     }
 
-    // ============================================================
     // DELETE CONFIRMATION
-    // ============================================================
     private static void confirmAndDelete(int tableRow) {
 
         String empNum    = String.valueOf(tableModel.getValueAt(tableRow, 0));
@@ -660,9 +628,7 @@ public class SystemEmployeePanel {
         // If not deleted, deleteEmployee() already showed the error
     }
 
-    // ============================================================
     // SEARCH BAR
-    // ============================================================
     private static JPanel buildSearchBar() {
         JPanel bar = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 8));
         bar.setBackground(SystemGUIHelper.COLOR_PANEL);
