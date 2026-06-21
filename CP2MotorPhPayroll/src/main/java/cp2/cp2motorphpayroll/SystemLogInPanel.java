@@ -199,5 +199,3 @@ public class SystemLogInPanel{
         userField.requestFocusInWindow();
         }
 }
-
-
