@@ -156,7 +156,7 @@ public class SystemPayrollPanel {
         c.gridy = 1; c.gridx = 4; c.gridwidth = 2;
 
         JButton summaryBtn = SystemGUIHelper.makeButton(
-                "Generate Summary",
+                "Compute Salaries",
                 new Color(30, 80, 160));
         summaryBtn.setPreferredSize(new Dimension(180, 32));
         controls.add(summaryBtn, c);
@@ -262,10 +262,10 @@ public class SystemPayrollPanel {
                     String[] data =
                             EntryPoint.employeeMap.get(num);
                     empNameField.setText(data != null
-                        ? DataProcessing.safeGet(data, 1)
-                          + ", "
-                          + DataProcessing.safeGet(data, 2)
-                        : "Not found");
+                            ? DataProcessing.safeGet(data, 1)
+                              + ", "
+                              + DataProcessing.safeGet(data, 2)
+                            : "Not found");
                 } else {
                     empNameField.setText("");
                 }
@@ -373,9 +373,9 @@ public class SystemPayrollPanel {
         String[] data = EntryPoint.employeeMap.get(empNum);
         if (data == null) return;
 
-        String lastName    = DataLoading.safeGet(data, 1);
-        String firstName   = DataLoading.safeGet(data, 2);
-        double hourlyRate  = parseDouble(DataLoading.safeGet(data, 16));
+        String lastName    = DataProcessing.safeGet(data, 1);
+        String firstName   = DataProcessing.safeGet(data, 2);
+        double hourlyRate  = parseDouble(DataProcessing.safeGet(data, 16));
 
         if (hourlyRate == 0)
             System.out.println("[Warning] Employee " + empNum
@@ -547,13 +547,13 @@ public class SystemPayrollPanel {
         if (records == null) return 0;
         double total = 0;
         for (String[] row : records) {
-            String date = DataLoading.safeGet(row, 3);
+            String date = DataProcessing.safeGet(row, 3);
             if (!getYearMonth(date).equals(yearMonth)) continue;
             int day = getDayOfMonth(date);
             if ((day <= 15 ? 1 : 2) != cutoff) continue;
             total += computeHours(
-                    DataLoading.safeGet(row, 4),
-                    DataLoading.safeGet(row, 5));
+                    DataProcessing.safeGet(row, 4),
+                    DataProcessing.safeGet(row, 5));
         }
         return total;
     }
