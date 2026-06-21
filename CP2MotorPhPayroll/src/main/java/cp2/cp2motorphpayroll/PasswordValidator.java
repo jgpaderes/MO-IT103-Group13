@@ -1,3 +1,6 @@
+package cp2.cp2motorphpayroll;
+
+
 public class PasswordValidator{
 
     //ACCOUNTS - add new accounts here:
@@ -33,7 +36,6 @@ public class PasswordValidator{
         return false;
         }
     }
-
 
 
 
