@@ -105,7 +105,7 @@ public class SystemGUIHelper {
      * Coordinates are relative to the parent where 0,0 is the top left corner of the frame
      * Offsets define the start of the popup
      */
-    static void makePopup(Component parent, Component contents, int widthOffset, int heightOffset){
+    static Popup makePopup(Component parent, Component contents, int widthOffset, int heightOffset){
         //TODO: maybe... ensure it's centred without having to fuss about with manual layouts
         //TODO: Add check for if popup exists, if true destroy all popups
         //TODO: Implement a way to CLOSE popups
@@ -119,6 +119,12 @@ public class SystemGUIHelper {
                 (int)frameLocation.getY()+heightOffset);
 
         popup.show();
+        return popup;
+    }
+
+    static void closePopup(Popup popup){
+        popup.hide();
+        popup = null;
     }
 
     public static void showDarkBackground(JFrame frame, Runnable popupAction) {
@@ -126,6 +132,21 @@ public class SystemGUIHelper {
         // 2. Set it up so after an employee is created they're the last entry
         // 3. Implement a saving feature where new employees are saved into memory
         // 4. Add QoL like transparent overlays
+    }
 
+    public static boolean validateFields(JTextField[] fields){
+        boolean allValid = true;
+        for (int i=0; i<fields.length; i++){
+            JTextField field = fields[i];
+            if (i==4){
+                continue;
+            }
+            if(field == null || field.getText().isBlank() || field.getText().contains("Missing Content")){
+                field.setForeground(Color.RED);
+                field.setText("Missing content");
+                allValid = false;
+            }
+        }
+        return allValid;
     }
 }

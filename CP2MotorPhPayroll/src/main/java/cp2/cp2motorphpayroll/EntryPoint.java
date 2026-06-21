@@ -8,9 +8,8 @@ import java.util.List;
 public class EntryPoint {
     
     // SHARED FILE PATHS
-    static final String ATTENDANCE_FILE = "CP2MotorPhPayroll/resources/MotorPH_Attendance Record.csv";
-    static final String EMPLOYEE_FILE   = "CP2MotorPhPayroll/resources/MotorPH_Employee Details.csv";
-   
+    public static final String ATTENDANCE_FILE = "CP2MotorPhPayroll/resources/MotorPH_Attendance Record.csv";
+    public static final String EMPLOYEE_FILE   = "CP2MotorPhPayroll/resources/MotorPH_Employee Details.csv";
     // SHARED IN-MEMORY DATA MAPS  
     static HashMap<String, String[]>       employeeMap   = new HashMap<>();
     static HashMap<String, List<String[]>> attendanceMap = new HashMap<>();
@@ -22,8 +21,8 @@ public class EntryPoint {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignored) {}
 
-            DataLoading.loadEmployees(EMPLOYEE_FILE, employeeMap);
-            DataLoading.loadAttendance(ATTENDANCE_FILE, attendanceMap);
+            DataProcessing.loadEmployees(EMPLOYEE_FILE, employeeMap);
+            DataProcessing.loadAttendance(ATTENDANCE_FILE, attendanceMap);
             SystemLogInPanel.showLogin();
         });
     }

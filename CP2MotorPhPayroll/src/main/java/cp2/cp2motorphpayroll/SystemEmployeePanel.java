@@ -6,7 +6,7 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static cp2.cp2motorphpayroll.TempraryClass.showEmployeeAddPanel;
+import static cp2.cp2motorphpayroll.SystemAddEmployeePanel.showEmployeeAddPanel;
 
 
 public class SystemEmployeePanel {
@@ -99,7 +99,7 @@ public class SystemEmployeePanel {
         String[] data = EntryPoint.employeeMap.get(key);
         Object[] row  = new Object[COLUMNS.length];
         for (int i = 0; i < CSV_INDICES.length; i++)
-            row[i] = DataLoading.safeGet(data, CSV_INDICES[i]);
+            row[i] = DataProcessing.safeGet(data, CSV_INDICES[i]);
         tableModel.addRow(row);
     }
 }
@@ -116,7 +116,7 @@ public class SystemEmployeePanel {
         String[] data = EntryPoint.employeeMap.get(key);
         Object[] row  = new Object[COLUMNS.length];
         for (int i = 0; i < CSV_INDICES.length; i++)
-            row[i] = DataLoading.safeGet(data, CSV_INDICES[i]);
+            row[i] = DataProcessing.safeGet(data, CSV_INDICES[i]);
 
         boolean matchEmp  = empNum.isEmpty()
             || String.valueOf(row[0]).contains(empNum);
