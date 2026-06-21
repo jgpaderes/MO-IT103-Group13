@@ -14,6 +14,7 @@ public class SystemGUIHelper {
     static final Color COLOR_SUCCESS   = new Color(30,  140, 70);
     static final Color COLOR_BTN_TEXT  = Color.WHITE;
     static final Color COLOR_FIELD_BG  = new Color(250, 250, 250);
+    static final Color COLOR_REQFIELD  = new Color(0, 0, 139);
 
     // FONTS
     static final Font FONT_TITLE = new Font("Segoe UI", Font.BOLD,  20);
@@ -86,6 +87,7 @@ public class SystemGUIHelper {
         logoutBtn.setFocusPainted(false);
         logoutBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         logoutBtn.addActionListener(e -> {
+           
             //TODO: ADD A CHECK IF YOU MADE OR EDITED NEW RECORDS TO SAVE BEFORE YOU LOGOUT
             int confirm = JOptionPane.showConfirmDialog(frame,
                     "Are you sure you want to logout?",
@@ -101,52 +103,28 @@ public class SystemGUIHelper {
         return header;
     }
 
-    /*Builds a reusable popup, pass Component in through contents, ideally through a Jpanel
-     * Coordinates are relative to the parent where 0,0 is the top left corner of the frame
-     * Offsets define the start of the popup
-     */
-    static Popup makePopup(Component parent, Component contents, int widthOffset, int heightOffset){
-        //TODO: maybe... ensure it's centred without having to fuss about with manual layouts
-        //TODO: Add check for if popup exists, if true destroy all popups
-        //TODO: Implement a way to CLOSE popups
-        //Get starting point of parent in absolute coordinates.
+    // MAKE POPUP
+   static JDialog makePopup(Component parent, Component contents,
+                              int widthOffset, int heightOffset) {
+        JFrame ownerFrame = (JFrame) SwingUtilities.getWindowAncestor(parent);
+        JDialog dialog = new JDialog(ownerFrame, true); // true = modal
+        dialog.setUndecorated(true); // no OS title bar/border
+        dialog.getContentPane().add(contents);
+        dialog.pack();
+
         Point frameLocation = parent.getLocationOnScreen();
+        dialog.setLocation(
+            (int) frameLocation.getX() + widthOffset,
+            (int) frameLocation.getY() + heightOffset);
 
-        PopupFactory popupFactory = new PopupFactory();
-        Popup popup = popupFactory.getPopup(parent,
-                contents,
-                (int)frameLocation.getX()+widthOffset,
-                (int)frameLocation.getY()+heightOffset);
-
-        popup.show();
-        return popup;
+        dialog.setVisible(true); // blocks here until closed (modal)
+        return dialog;
     }
 
-    static void closePopup(Popup popup){
-        popup.hide();
-        popup = null;
-    }
-
-    public static void showDarkBackground(JFrame frame, Runnable popupAction) {
-        // 1. Create a mock UI for creating an employee
-        // 2. Set it up so after an employee is created they're the last entry
-        // 3. Implement a saving feature where new employees are saved into memory
-        // 4. Add QoL like transparent overlays
-    }
-
-    public static boolean validateFields(JTextField[] fields){
-        boolean allValid = true;
-        for (int i=0; i<fields.length; i++){
-            JTextField field = fields[i];
-            if (i==4){
-                continue;
-            }
-            if(field == null || field.getText().isBlank() || field.getText().contains("Missing Content")){
-                field.setForeground(Color.RED);
-                field.setText("Missing content");
-                allValid = false;
-            }
+    // CLOSE POPUP — disposes the JDialog
+    static void closePopup(JDialog popup) {
+        if (popup != null) {
+            popup.dispose();
         }
-        return allValid;
     }
 }
