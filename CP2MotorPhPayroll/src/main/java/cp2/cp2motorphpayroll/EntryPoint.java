@@ -8,8 +8,9 @@ import java.util.List;
 public class EntryPoint {
     
     // SHARED FILE PATHS
-    public static final String ATTENDANCE_FILE = "CP2MotorPhPayroll/resources/MotorPH_Attendance Record.csv";
-    public static final String EMPLOYEE_FILE   = "CP2MotorPhPayroll/resources/MotorPH_Employee Details.csv";
+    static final String ATTENDANCE_FILE = "resources/MotorPH_Attendance Record.csv";
+    static final String EMPLOYEE_FILE   = "resources/MotorPH_Employee Details.csv";
+   
     // SHARED IN-MEMORY DATA MAPS  
     static HashMap<String, String[]>       employeeMap   = new HashMap<>();
     static HashMap<String, List<String[]>> attendanceMap = new HashMap<>();
