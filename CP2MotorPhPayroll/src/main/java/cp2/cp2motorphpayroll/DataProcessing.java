@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * =========================================================
  * Employee CSV column layout (0-based index):
- *  0  = Employee # (key)    1  = Last Name
+ *  0  = Employee #          1  = Last Name
  *  2  = First Name          3  = Birthday
  *  4  = Phone Number        5  = SSS #
  *  6  = PhilHealth #        7  = TIN #
@@ -22,52 +22,53 @@ import java.util.*;
 public class DataProcessing {
 
     static final int MIN_EMPLOYEE_COLS = 4;
-    static int count;
-    static String filePath = EntryPoint.EMPLOYEE_FILE;
+
+    // CSV HEADERS
+    static final String EMPLOYEE_CSV_HEADER =
+        "Employee #,Last Name,First Name,Birthday,Phone Number,"
+        + "SSS #,PhilHealth #,TIN #,Pag-IBIG #,Status,"
+        + "Position,Basic Salary,Rice Subsidy,Phone Allowance,"
+        + "Clothing Allowance,Gross Semi-monthly Rate,Hourly Rate,"
+        + "Immediate Supervisor,Address";
 
     // LOAD EMPLOYEES
     static void loadEmployees(String employeeFile,
-                              HashMap<String, String[]> employeeMap) {
+                               HashMap<String, String[]> employeeMap) {
         File file = new File(employeeFile);
         if (!file.exists()) {
-            //debug line start
             System.out.println(file.getAbsolutePath());
             SystemGUIHelper.showWarning(null,
-                    "Employee file not found");
+                "Employee file not found");
             return;
         }
         employeeMap.clear();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             br.readLine(); // skip header row
             String line;
-            count = 0;
+            int count = 0;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
-                line +="," + count;
-                System.out.println(line);
                 if (line.isEmpty()) continue;
                 String[] data = line.split(",", -1);
                 if (data.length < MIN_EMPLOYEE_COLS) continue;
-                employeeMap.put(data[0].trim(), data); //the key ID is
+                employeeMap.put(data[0].trim(), data);
                 count++;
             }
-            System.out.println("[DataProcessing] Employees loaded: " + count);
-
+            System.out.println("[DataLoading] Employees loaded: " + count);
         } catch (IOException e) {
             SystemGUIHelper.showWarning(null,
-                    "Error reading employee file");
+                "Error reading employee file");
         }
     }
 
-    // LOAD ATTENDANCE 
+    // LOAD ATTENDANCE
     static void loadAttendance(String attendanceFile,
-                               HashMap<String, List<String[]>> attendanceMap) {
+                                HashMap<String, List<String[]>> attendanceMap) {
         File file = new File(attendanceFile);
         if (!file.exists()) {
-            //debug line start
             System.out.println(file.getAbsolutePath());
             SystemGUIHelper.showWarning(null,
-                    "Attendance File not Found");
+                "Attendance File not Found");
             return;
         }
         attendanceMap.clear();
@@ -85,105 +86,178 @@ public class DataProcessing {
                 attendanceMap.get(empNumber).add(data);
                 count++;
             }
-            System.out.println("[DataProcessing] Attendance records loaded: " + count);
+            System.out.println("[DataLoading] Attendance records loaded: " + count);
         } catch (IOException e) {
             SystemGUIHelper.showWarning(null,
-                    "Error Reading Attendance File");
+                "Error Reading Attendance File");
         }
     }
 
-    static String safeGet(String[] data, int index) {
+    // SAVE EMPLOYEE - appends one new employee row to the CSV.
+    static boolean saveEmployee(String employeeFile,
+                                 String[] data,
+                                 HashMap<String, String[]> employeeMap) {
+        if (data == null || data.length < 19) {
+            SystemGUIHelper.showWarning(null,
+                "Cannot save: employee data is incomplete.");
+            return false;
+        }
+
+        String empNum = data[0].trim();
+        if (employeeMap.containsKey(empNum)) {
+            SystemGUIHelper.showError(null,
+                "Employee Number \"" + empNum + "\" already exists.\n"
+                + "Please use a unique Employee Number.");
+            return false;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < data.length; i++) {
+            String field = data[i] == null ? "" : data[i].trim();
+            sb.append(field);
+            if (i < data.length - 1) sb.append(",");
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(
+                new FileWriter(employeeFile, true))) { // true = append
+            bw.newLine();
+            bw.write(sb.toString());
+            System.out.println("[DataLoading] Employee saved: " + empNum);
+        } catch (IOException e) {
+            SystemGUIHelper.showWarning(null,
+                "Error writing to employee file.\n"
+                + "Check that the file is not open in another program.");
+            return false;
+        }
+
+        employeeMap.put(empNum, data);
+        return true;
+    }
+    // GENERATE NEXT EMPLOYEE NUMBER
+    static String generateNextEmpNumber(HashMap<String, String[]> employeeMap) {
+        int max = 0;
+        for (String key : employeeMap.keySet()) {
+            try {
+                int num = Integer.parseInt(key.trim());
+                if (num > max) max = num;
+            } catch (NumberFormatException ignored) {}
+        }
+        return String.valueOf(max + 1);
+    }
+
+    // REWRITE EMPLOYEE FILE - overwrites the CSV from scratch
+    static boolean rewriteEmployeeFile(String employeeFile,
+                                        HashMap<String, String[]> employeeMap) {
+        try (BufferedWriter bw = new BufferedWriter(
+                new FileWriter(employeeFile, false))) { // false = overwrite
+
+            bw.write(EMPLOYEE_CSV_HEADER);
+            bw.newLine();
+
+            // Sort by Employee # so the file stays in a predictable order
+            var keys = new ArrayList<String>(employeeMap.keySet());
+            Collections.sort(keys);
+
+            for (String key : keys) {
+                String[] data = employeeMap.get(key);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < data.length; i++) {
+                    String field = data[i] == null ? "" : data[i].trim();
+                    sb.append(field);
+                    if (i < data.length - 1) sb.append(",");
+                }
+                bw.write(sb.toString());
+                bw.newLine();
+            }
+
+            System.out.println("[DataLoading] Employee file rewritten — "
+                + keys.size() + " record(s).");
+            return true;
+
+        } catch (IOException e) {
+            SystemGUIHelper.showWarning(null,
+                "Error writing to employee file.\n"
+                + "Check that the file is not open in another program.");
+            return false;
+        }
+    }
+
+    // EDIT EMPLOYEE 
+    static boolean updateEmployee(String employeeFile,
+                                   String oldEmpNum,
+                                   String[] newData,
+                                   HashMap<String, String[]> employeeMap) {
+
+        if (newData == null || newData.length < 19) {
+            SystemGUIHelper.showWarning(null,
+                "Cannot update: employee data is incomplete.");
+            return false;
+        }
+
+        if (!employeeMap.containsKey(oldEmpNum)) {
+            SystemGUIHelper.showError(null,
+                "Employee #" + oldEmpNum + " was not found.\n"
+                + "It may have already been deleted or modified.");
+            return false;
+        }
+
+        String newEmpNum = newData[0].trim();
+
+        // Guard: Avoids duplicate Employee Number
+        if (!newEmpNum.equals(oldEmpNum)
+                && employeeMap.containsKey(newEmpNum)) {
+            SystemGUIHelper.showError(null,
+                "Employee Number \"" + newEmpNum + "\" is already in use.\n"
+                + "Please choose a different Employee Number.");
+            return false;
+        }
+
+        // Keep a backup of the original record in case the write fails
+        String[] backup = employeeMap.get(oldEmpNum);
+
+        // Change Employee Number
+        employeeMap.remove(oldEmpNum);
+        employeeMap.put(newEmpNum, newData);
+
+        // Rewrite the whole file from the updated map
+        boolean success = rewriteEmployeeFile(employeeFile, employeeMap);
+
+        if (!success) {
+            employeeMap.remove(newEmpNum);
+            employeeMap.put(oldEmpNum, backup);
+        }
+
+        return success;
+    }
+
+    // DELETE EMPLOYEE FILE
+    static boolean deleteEmployee(String employeeFile,
+                                   String empNum,
+                                   HashMap<String, String[]> employeeMap) {
+
+        if (!employeeMap.containsKey(empNum)) {
+            SystemGUIHelper.showError(null,
+                "Employee #" + empNum + " was not found.\n"
+                + "It may have already been deleted.");
+            return false;
+        }
+
+        // Keep a backup in case the file write fails
+        String[] backup = employeeMap.get(empNum);
+        employeeMap.remove(empNum);
+
+        boolean success = rewriteEmployeeFile(employeeFile, employeeMap);
+
+        if (!success) {
+            employeeMap.put(empNum, backup);
+        }
+
+        return success;
+    }
+
+    // SAFE GETTER — returns empty string if index is out of bounds
+   static String safeGet(String[] data, int index) {
         if (data == null || index >= data.length) return "";
         return data[index].trim();
-    }
-
-    static String[] readNewEmployeeField(JTextField[] fields) {
-        int size = (fields.length);
-        System.out.println(size);
-        String[] content = new String[18];
-        for (int i = 0; i < size; i++) {
-            if(i==4){
-                continue;
-            }
-            if(i>4){
-                JTextField field = fields[i];
-                content[i] = field.getText();
-                System.out.println("Index " + i + ": " + content[i]);
-            }
-            if(i>10){
-                JTextField field = fields[i];
-                content[16] = field.getText();
-                System.out.println("Index " + i + ": " + content[i]);
-                break;
-                //known bug [1, 3, 2, 4, null, 5, 6, 7, 8, 10, 9, 11, null, null, null, null, 11, null]
-                //hr gets copied to 11th field
-            }
-            JTextField field = fields[i];
-            content[i] = field.getText();
-            System.out.println("Index " + i + ": " + content[i]);
-        }
-        return content;
-    }
-
-    static String[] addEmployeeToRecords(JTextField[] fields){
-        String[] data = readNewEmployeeField(fields);
-        //bug where if you add one entry and another it slips into the top of the latest entered array
-        EntryPoint.employeeMap.put(data[0].trim(), data); //the key ID is
-        System.out.println(data[0]);
-        System.out.println(Arrays.toString(data));
-        return data;
-    }
-
-    static void saveEmployeeToCSV(String[] data) {
-        try (FileWriter writer = new FileWriter(filePath, true)) {
-            // Join array elements with commas
-            String line = String.join(",", data);
-            // Append newline at the end
-            writer.write(line + System.lineSeparator());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //Great for validating the length of an ID
-    static boolean validLength (String content, int limit){
-
-        return false;
-    }
-
-    static boolean onlyLetters (JTextField content){
-        if (content != null && content.getText().matches("[a-zA-Z]+")){
-            return true;
-        }
-        return false;
-    }
-
-    static boolean onlyIntegers (String content, int limit){
-        if (content.length()!=limit){
-            return false;
-        }
-        try{
-            int parsedInteger = Integer.parseInt(content);
-            return true;
-        }
-        catch (NumberFormatException e){
-            return false;
-        }
-    }
-
-    static boolean onlyIntegers (String content){
-        try{
-            int parsedInteger = Integer.parseInt(content);
-            return true;
-        }
-        catch (NumberFormatException e){
-            return false;
-        }
-    }
-
-
-    static String removeSpaces(String input){
-        input = input.replace(" ", "");
-        return input;
     }
 }
