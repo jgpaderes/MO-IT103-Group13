@@ -590,18 +590,19 @@ public class SystemEmployeePanel {
             }
         }
 
-        if (!Validation.validateSSS(inputs[5])) {
+        if (!Validation.validateSSS(data[5])) {
             SystemGUIHelper.showError(frame, "Invalid SSS number");
             return false;
         }
-        if (!Validation.validatePhilHealth(inputs[6])) {
+        if (!Validation.validatePhilHealth(data[6])) {
             SystemGUIHelper.showError(frame, "Invalid PhilHealth number");
+            System.out.println(data[6]);
             return false;
         }
-        if (!Validation.validateTIN(inputs[7])) {
+        if (!Validation.validateTIN(data[7])) {
             SystemGUIHelper.showError(frame, "Invalid TIN number requires (xxx-xxx-xxx)");
             return false;
-        }if (!Validation.validatePagIbig(inputs[8])) {
+        }if (!Validation.validatePagIbig(data[8])) {
             return false;
         }
 
