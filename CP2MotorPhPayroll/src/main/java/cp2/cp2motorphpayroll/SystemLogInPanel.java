@@ -134,7 +134,7 @@ public class SystemLogInPanel{
             }
             
             // Safeguard 4: invalid username
-            if (!PasswordValidator.usernameExists(username)) {
+            if (!Validation.usernameExists(username)) {
             failedAttempts++;
             int rem = MAX_ATTEMPTS - failedAttempts;
             attemptLbl.setText(rem > 0
@@ -145,7 +145,7 @@ public class SystemLogInPanel{
             }
             
             // Safeguard 5: wrong password
-            String role = PasswordValidator.ValidatePassword(
+            String role = Validation.ValidatePassword(
             username, password);
             if (role == null) {
                 failedAttempts++;
